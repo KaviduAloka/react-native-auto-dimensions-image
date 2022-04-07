@@ -1,0 +1,28 @@
+{
+  "name": "react-native-auto-dimensions-image",
+  "version": "0.0.5",
+  "description": "This component can adjust the dimensions according to the given height or width. Both dimensions can be set for any local or server image",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaviduAloka/react-native-auto-dimensions-image.git"
+  },
+  "keywords": [
+    "react-native",
+    "width",
+    "height",
+    "scale",
+    "image",
+    "dynamic",
+    "dimension"
+  ],
+  "author": "KaviduAloka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KaviduAloka/react-native-auto-dimensions-image/issues"
+  },
+  "homepage": "https://github.com/KaviduAloka/react-native-auto-dimensions-image#readme"
+}
