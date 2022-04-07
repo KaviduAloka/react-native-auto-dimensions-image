@@ -1,9 +1,9 @@
-# rn-auto-dimension-image
+# react-native-auto-dimensions-image
 
 This component can adjust the dimensions according to the given height or width. Both dimensions can be set for any local or server image
 
 ## Installation
-`npm i rn-auto-dimension-image`
+`npm i react-native-auto-dimensions-image`
 
 ## Usage
 
@@ -11,7 +11,7 @@ This component can adjust the dimensions according to the given height or width.
 import React, {Component} from 'react';
 import {View} from 'react-native';
 
-import AutoDimensionImage from 'rn-auto-dimension-image';
+import AutoDimensionImage from 'react-native-auto-dimensions-image';
 
 export default class Test extends Component {
   render() {
