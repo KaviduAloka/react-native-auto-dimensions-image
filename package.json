@@ -1,6 +1,6 @@
 {
   "name": "react-native-auto-dimensions-image",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "This component can adjust the dimensions according to the given height or width. Both dimensions can be set for any local or server image",
   "main": "./src/index.js",
   "scripts": {

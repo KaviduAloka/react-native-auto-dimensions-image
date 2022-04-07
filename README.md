@@ -11,7 +11,7 @@ This component can adjust the dimensions according to the given height or width.
 import React, {Component} from 'react';
 import {View} from 'react-native';
 
-import AutoDimensionImage from 'react-native-auto-dimensions-image';
+import AutoDimensionImage, {imageDimensionTypes} from 'react-native-auto-dimensions-image';
 
 export default class Test extends Component {
   render() {
@@ -19,14 +19,14 @@ export default class Test extends Component {
       <View>
         <AutoDimensionImage
           uri="https://images.unsplash.com/photo-1616455579100-2ceaa4eb2d37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Ym13JTIwY2FyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-          dimensionType="width"
+          dimensionType={imageDimensionTypes.WIDTH}
           dimensionValue={300}
           otherDimensionMaxValue={200}
           style={{ alignSelf: 'center' }}
         />
 
         <AutoDimensionImage
-          dimensionType="height"
+          dimensionType={imageDimensionTypes.HEIGHT}
           localSource={require('../image.png')}
           dimensionValue={300}
         />

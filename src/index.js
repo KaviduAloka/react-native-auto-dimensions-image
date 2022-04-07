@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {Image, View, ActivityIndicator, StyleSheet} from 'react-native';
 
-const types = {
+export const imageDimensionTypes = {
   WIDTH: 'width',
   HEIGHT: 'height',
 };
+
 const AutoDimensionImage = ({
   uri,
   localSource,
@@ -45,7 +46,7 @@ const AutoDimensionImage = ({
   const setImageDimensions = () => {
     getDynamicDimensions(dimensionType, dimensionValue)
       .then(({width, height}) => {
-        const dynamicWidth = dimensionType === types.WIDTH;
+        const dynamicWidth = dimensionType === imageDimensionTypes.WIDTH;
 
         if (!otherDimensionMaxValue) {
           setImageWidth(width);
@@ -61,7 +62,9 @@ const AutoDimensionImage = ({
           } else {
             //  exceeding the max value
             getDynamicDimensions(
-              dimensionType === types.HEIGHT ? types.WIDTH : types.HEIGHT,
+              dimensionType === imageDimensionTypes.HEIGHT
+                ? imageDimensionTypes.WIDTH
+                : imageDimensionTypes.HEIGHT,
               otherDimensionMaxValue,
             )
               .then(({width: _width, height: _height}) => {
@@ -84,7 +87,7 @@ const AutoDimensionImage = ({
     return new Promise((resolve, reject) => {
       getImageDimensions()
         .then(data => {
-          if (type === types.WIDTH) {
+          if (type === imageDimensionTypes.WIDTH) {
             resolve({width: value, height: (data.height * value) / data.width});
           } else {
             resolve({width: (data.width * value) / data.height, height: value});
@@ -118,6 +121,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+AutoDimensionImage.defaultProps = {
+  style: {},
+  dimensionType: imageDimensionTypes.WIDTH,
+};
 
 AutoDimensionImage.propTypes = {
   uri: PropTypes.string,
