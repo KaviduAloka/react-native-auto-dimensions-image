@@ -9,7 +9,7 @@ This component can adjust the dimensions according to the given height or width.
 
 ```
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 import AutoDimensionImage, {imageDimensionTypes} from 'react-native-auto-dimensions-image';
 
@@ -17,23 +17,33 @@ export default class Test extends Component {
   render() {
     return (
       <View>
+        {/* Remote image URL */}
         <AutoDimensionImage
-          uri="https://images.unsplash.com/photo-1616455579100-2ceaa4eb2d37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Ym13JTIwY2FyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-          dimensionType={imageDimensionTypes.WIDTH}
-          dimensionValue={300}
+          source={{
+            uri: 'https://images.unsplash.com/photo-1616455579100-2ceaa4eb2d37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Ym13JTIwY2FyfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+          }}
+          dimensionType={imageDimensionTypes.HEIGHT}
+          dimensionValue={350}
           otherDimensionMaxValue={200}
-          style={{ alignSelf: 'center' }}
+          style={styles.image}
         />
 
+        {/* Local image URL */}
         <AutoDimensionImage
+          source={require('./X5ModelImage.jpeg')}
           dimensionType={imageDimensionTypes.HEIGHT}
-          localSource={require('../image.png')}
-          dimensionValue={300}
+          dimensionValue={200}
         />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  image: {
+    alignSelf: 'center',
+  },
+});
 ```
 
 ### Dimension change according to the input params (width & height)
@@ -51,9 +61,8 @@ By adding this, we can add maximum limit to the dynamic dimension which gets cha
 
 | name | type | isRequired | default | description |
 | --- |  :---: |  :---: |  :---: |  --- |
-| dimensionType | `enum('width', 'height')` | YES | width | Mention the constant dimension. (width/height) |
-| dimensionValue | Number | YES | - | Constant dimension value |
-| uri | String | NO | - | URL of the server image |
-| localSource | `ImageSource` | NO | - | Local image path (`require('assets/image.jpg')`)
-| otherDimensionMaxValue | Number | NO | - | Can set the maximum value for the other dimension. If that value exceeds when setting the value for constant dimension, the image will fit to the given `otherDimensionMaxValue` value |
+| dimensionType | `enum('width', 'height')` | YES | - | Mention the constant dimension. (width/height) |
+| dimensionValue | `number` | YES | - | Constant dimension value |
+| source | `ImageSource` | YES | - | The image source (either a remote URL or a local file resource) |
+| otherDimensionMaxValue | `number` | NO | - | Can set the maximum value for the other dimension. If that value exceeds when setting the value for constant dimension, the image will fit to the given `otherDimensionMaxValue` value |
 | style | `Image Style Props` | NO | {} | Image styling | 
