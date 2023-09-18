@@ -1,17 +1,27 @@
-import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
-import {Image, View, ActivityIndicator, StyleSheet} from 'react-native';
+import {
+  Image,
+  View,
+  ActivityIndicator,
+  StyleSheet,
+  ImageStyle,
+  ImageProps,
+} from 'react-native';
 
-export const imageDimensionTypes = {
-  WIDTH: 'width',
-  HEIGHT: 'height',
+type Props = {
+  source: number | {uri: string};
+  dimensionValue: number;
+  otherDimensionMaxValue?: number;
+  dimensionType?: 'width' | 'height';
+  style?: ImageStyle;
+  defaultImageProps?: ImageProps;
 };
 
-const AutoDimensionImage = ({
+const AutoDimensionImage: React.FC<Props> = ({
   source,
   dimensionValue,
   otherDimensionMaxValue,
-  dimensionType,
+  dimensionType = 'width',
   style,
   defaultImageProps,
 }) => {
@@ -31,7 +41,7 @@ const AutoDimensionImage = ({
   const setImageDimensions = () => {
     getDynamicDimensions(dimensionType, dimensionValue)
       .then(({width, height}) => {
-        const dynamicWidth = dimensionType === imageDimensionTypes.WIDTH;
+        const dynamicWidth = dimensionType === 'width';
 
         if (!otherDimensionMaxValue) {
           setImageWidth(width);
@@ -47,9 +57,7 @@ const AutoDimensionImage = ({
           } else {
             //  exceeding the max value
             getDynamicDimensions(
-              dimensionType === imageDimensionTypes.HEIGHT
-                ? imageDimensionTypes.WIDTH
-                : imageDimensionTypes.HEIGHT,
+              dimensionType === 'height' ? 'width' : 'height',
               otherDimensionMaxValue,
             )
               .then(({width: _width, height: _height}) => {
@@ -65,14 +73,9 @@ const AutoDimensionImage = ({
       .catch(error => console.log(error));
   };
 
-  /**
-   * @returns {Promise}
-   */
-  const getImageDimensions = () => {
-    const localImage = source.uri === undefined;
-
+  const getImageDimensions = (): Promise<{width: number; height: number}> => {
     return new Promise((resolve, reject) => {
-      if (!localImage) {
+      if (typeof source !== 'number') {
         //  server image
         Image.getSize(
           source.uri,
@@ -87,14 +90,14 @@ const AutoDimensionImage = ({
     });
   };
 
-  /**
-   * @returns {Promise}
-   */
-  const getDynamicDimensions = (type, value) => {
+  const getDynamicDimensions = (
+    type: 'width' | 'height',
+    value: number,
+  ): Promise<{width: number; height: number}> => {
     return new Promise((resolve, reject) => {
       getImageDimensions()
         .then(data => {
-          if (type === imageDimensionTypes.WIDTH) {
+          if (type === 'width') {
             resolve({width: value, height: (data.height * value) / data.width});
           } else {
             resolve({width: (data.width * value) / data.height, height: value});
@@ -129,25 +132,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-
-AutoDimensionImage.defaultProps = {
-  style: {},
-  defaultImageProps: {},
-};
-
-AutoDimensionImage.propTypes = {
-  style: PropTypes.object,
-  source: PropTypes.oneOfType([
-    PropTypes.shape({
-      uri: PropTypes.string,
-      cache: PropTypes.string,
-    }),
-    PropTypes.number,
-  ]),
-  dimensionValue: PropTypes.number.isRequired,
-  dimensionType: PropTypes.oneOf(['width', 'height']).isRequired,
-  otherDimensionMaxValue: PropTypes.number,
-  defaultImageProps: PropTypes.object,
-};
 
 export default AutoDimensionImage;
